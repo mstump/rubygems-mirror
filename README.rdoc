@@ -28,8 +28,9 @@ will maintain stability in master.
 * Put a .gemmirrorrc file in your home directory that looks like the following:
 
 ---
-- from: http://rubygems.org
-  to: /data/rubygems
+  - rubygems:
+  -   from: http://gems.example.com # source repository URI
+      to: /path/to/mirror           # destination directory
 
 * Run rake mirror:update
 

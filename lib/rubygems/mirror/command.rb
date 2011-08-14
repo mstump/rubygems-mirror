@@ -16,8 +16,9 @@ repositories to a local path. The config file is a YAML document that looks
 like this:
 
   ---
-  - from: http://gems.example.com # source repository URI
-    to: /path/to/mirror           # destination directory
+  - rubygems:
+  -   from: http://gems.example.com # source repository URI
+      to: /path/to/mirror           # destination directory
 
 Multiple sources and destinations may be specified.
     EOF
@@ -32,7 +33,7 @@ Multiple sources and destinations may be specified.
 
     raise "Invalid config file #{config_file}" unless mirrors.respond_to? :each
 
-    mirrors.each do |mir|
+    mirrors.values.each do |mir|
       raise "mirror missing 'from' field" unless mir.has_key? 'from'
       raise "mirror missing 'to' field" unless mir.has_key? 'to'
 
@@ -43,7 +44,7 @@ Multiple sources and destinations may be specified.
       raise "Not a directory: #{save_to}" unless File.directory? save_to
 
       mirror = Gem::Mirror.new(get_from, save_to)
-      
+
       say "Fetching: #{mirror.from(Gem::Mirror::SPECS_FILE_Z)}"
       mirror.update_specs
 
